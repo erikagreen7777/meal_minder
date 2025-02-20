@@ -1,18 +1,14 @@
 import logo from "./mm_logo.png";
 import "./App.css";
-
-const form = {
-  barcode: "",
-  image: new Image(),
-};
+import { BarcodeScanner } from "./components/BarcodeScanner";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>Meal Minder</h1>
         <img src={logo} />
-        <h1>Add Inventory</h1>
-        <form>
+        <div>
           <label htmlFor="barcode">Barcode</label>
           <input
             id="barcode"
@@ -21,10 +17,11 @@ function App() {
             type="file"
             accept="image/*"
             capture="environment"
-            defaultValue={form.barcode}
+            defaultValue={null}
           />
-        </form>
+        </div>
       </header>
+      <BarcodeScanner />
     </div>
   );
 }
