@@ -1,5 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+
+const form = {
+  barcode: "",
+  image: new Image(),
+};
 
 function App() {
   return (
@@ -18,6 +23,21 @@ function App() {
           Learn React
         </a>
       </header>
+      <form>
+        <label htmlFor="barcode">
+          Barcode
+          <button type="buttton">Take Picture</button>
+        </label>
+        <input
+          id="barcode"
+          name="barcode"
+          alt="barcode"
+          type="file"
+          accept="image/*"
+          capture="environment"
+          defaultValue={form.barcode}
+        />
+      </form>
     </div>
   );
 }
