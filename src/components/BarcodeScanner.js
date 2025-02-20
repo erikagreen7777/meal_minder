@@ -11,7 +11,7 @@ export const BarcodeScanner = () => {
 
   return (
     <>
-      <video ref={ref} />
+      <video ref={ref} playsInline />
       <p>
         <span>Last result:</span>
         <span>{result}</span>
