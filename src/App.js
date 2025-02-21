@@ -1,6 +1,7 @@
 import logo from "./mm_logo.png";
 import "./App.css";
 import { BarcodeScanner } from "./components/BarcodeScanner";
+import CameraComponent from "./components/CameraComponent";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
             defaultValue={null}
           /> */}
         </div>
-        <BarcodeScanner />
+        {/* <BarcodeScanner /> */}
+        <CameraComponent />
       </header>
     </div>
   );

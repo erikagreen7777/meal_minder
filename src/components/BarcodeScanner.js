@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 
 export const BarcodeScanner = () => {
@@ -11,7 +11,7 @@ export const BarcodeScanner = () => {
 
   return (
     <>
-      <video ref={ref} playsInline />
+      <video id="videoScanner" ref={ref} />
       <p>
         <span>Last result:</span>
         <span>{result}</span>
