@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 
 const CameraComponent = () => {
@@ -53,3 +53,9 @@ const CameraComponent = () => {
 };
 
 export default CameraComponent;
+
+/* API TO USE
+https://www.postman.com/cs-demo/public-rest-apis/request/zgtahxr/barcode-lookup
+https://openfoodfacts.github.io/openfoodfacts-server/api/
+
+*/

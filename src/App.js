@@ -11,17 +11,7 @@ function App() {
         <img src={logo} />
         <div>
           <label htmlFor="barcode">Barcode</label>
-          {/* <input
-            id="barcode"
-            name="barcode"
-            alt="barcode"
-            // type="file"
-            accept="video/*"
-            capture="environment"
-            defaultValue={null}
-          /> */}
         </div>
-        {/* <BarcodeScanner /> */}
         <CameraComponent />
       </header>
     </div>
