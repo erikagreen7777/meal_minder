@@ -10,13 +10,14 @@ const CameraComponent = () => {
     },
   });
 
+  // CAMERA SCANNER
   useEffect(() => {
-    if (typeof window === "undefined") return; // Ensure code only runs on the client
+    if (typeof window === "undefined") return;
 
     const getCameraStream = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }, // Use environment camera
+          video: { facingMode: "environment" },
           audio: false,
         });
         if (ref.current) {
@@ -37,6 +38,35 @@ const CameraComponent = () => {
     };
   }, [ref]);
 
+  // BARCODE API
+  useEffect(() => {
+    if (result && result !== "No barcode found") {
+      // make API call
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            `https://world.openfoodfacts.net/api/v2/product/${result}?product_type=food&fields=nutriments`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ barcode: result }),
+            }
+          );
+          const data = await response.json();
+          alert(JSON.stringify(data)); // Alert the response data as a formatted JSON string
+          // Object.keys(data).forEach((key) => {
+          //   console.log(`${key}: ${data[key]}`);
+          // }); // Handle the response data as needed
+        } catch (error) {
+          alert("Error fetching data:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [result]);
   return (
     <div>
       {error ? (
@@ -53,9 +83,3 @@ const CameraComponent = () => {
 };
 
 export default CameraComponent;
-
-/* API TO USE
-https://www.postman.com/cs-demo/public-rest-apis/request/zgtahxr/barcode-lookup
-https://openfoodfacts.github.io/openfoodfacts-server/api/
-
-*/

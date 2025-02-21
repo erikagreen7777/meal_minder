@@ -1,6 +1,5 @@
 import logo from "./mm_logo.png";
 import "./App.css";
-import { BarcodeScanner } from "./components/BarcodeScanner";
 import CameraComponent from "./components/CameraComponent";
 
 function App() {
