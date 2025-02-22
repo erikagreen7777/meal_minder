@@ -56,12 +56,26 @@ const CameraComponent = () => {
           );
           const data = await response.json();
           const { ...product_info } = data;
-          console.log(`product_info: ${JSON.stringify(product_info)}`);
+          console.log(JSON.stringify(product_info));
+          /* TEST FOR ACCESSING API - move to a different folder
+          const nutriment_number = Math.round(Math.random() * 10);
+          const nutrientKeys = Object.keys(product_info.product.nutriments);
+          for (let i = 0; i < nutriment_number; i++) {
+            let nutrient_index = Math.round(
+              Math.random() * nutrientKeys.length
+            );
+            let nutrient_key = nutrientKeys[nutrient_index];
+            console.log(
+              JSON.stringify({
+                [nutrient_key]: product_info.product.nutriments[nutrient_key],
+              })
+            );
+          }
+            */
         } catch (error) {
-          alert("Error fetching data:", error.message);
+          console.log("Error fetching data:", error.message);
         }
       };
-
       fetchData();
     }
   }, [result]);
