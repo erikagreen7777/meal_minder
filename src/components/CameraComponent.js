@@ -45,7 +45,7 @@ const CameraComponent = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `https://world.openfoodfacts.net/api/v2/product/${result}?product_type=food&fields=nutriments`,
+            `https://world.openfoodfacts.net/api/v2/product/${result}?product_type=food&fields=product_name%2Cnutriments`,
             {
               method: "POST",
               headers: {
@@ -55,12 +55,10 @@ const CameraComponent = () => {
             }
           );
           const data = await response.json();
-          alert(JSON.stringify(data)); // Alert the response data as a formatted JSON string
-          // Object.keys(data).forEach((key) => {
-          //   console.log(`${key}: ${data[key]}`);
-          // }); // Handle the response data as needed
+          const { ...product_info } = data;
+          console.log(`product_info: ${JSON.stringify(product_info)}`);
         } catch (error) {
-          alert("Error fetching data:", error);
+          alert("Error fetching data:", error.message);
         }
       };
 
