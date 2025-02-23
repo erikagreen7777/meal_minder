@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 import { GetProductInfo } from "../api/GetProductInfo";
+import { AddButton } from "./AddButton";
 
 const CameraComponent = () => {
   const [error, setError] = useState(null);
   // 758176233967 for barcode that's not found
   // 080000521484 for barcode that's found
-  const [result, setResult] = useState("758176233967");
+  const [result, setResult] = useState("080000521484");
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -57,7 +58,10 @@ const CameraComponent = () => {
   return (
     <div>
       {error ? (
-        <p>{error}</p>
+        <div>
+          <p>{error}</p>
+          <AddButton />
+        </div>
       ) : (
         <video id="videoScanner" ref={ref} autoPlay playsInline />
       )}
