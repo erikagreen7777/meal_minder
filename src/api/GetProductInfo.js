@@ -1,7 +1,8 @@
 export const GetProductInfo = async (result) => {
   try {
     const response = await fetch(
-      `https://world.openfoodfacts.org/api/v2/product/${result}?product_type=food&fields=product_name%2Cserving_size%2Cnutriments`,
+      `https://world.openfoodfacts.net/api/v2/product/${result}?product_type=food&fields=serving_quantity_unit%2Cquantity%2Cserving_quantity%2Cproduct_name%2Cserving_size%2Cnutriments`,
+      // Potential tags: nutriscore_grade, quantity, serving_quantity, serving_quantity_unit
       {
         method: "GET",
         headers: {

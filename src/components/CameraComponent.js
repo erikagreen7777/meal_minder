@@ -8,6 +8,7 @@ const CameraComponent = () => {
   // 758176233967 for barcode that's not found
   // 080000521484 for barcode that's found
   const [result, setResult] = useState("080000521484");
+  const [productInfo, setProductInfo] = useState(1);
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -46,8 +47,7 @@ const CameraComponent = () => {
     if (result && result !== "No barcode found") {
       const fetchProductInfo = async () => {
         try {
-          const productInfo = await GetProductInfo(result);
-          console.log(`productInfo: ${JSON.stringify(productInfo)}`);
+          setProductInfo(await GetProductInfo(result));
         } catch (error) {
           setError("Product not found: " + error.message);
         }
@@ -65,9 +65,15 @@ const CameraComponent = () => {
       ) : (
         <video id="videoScanner" ref={ref} autoPlay playsInline />
       )}
+
       <p>
         <span>Last result:</span>
         <span>{result}</span>
+        {productInfo && (
+          <pre style={{ fontSize: "12px", alignItems: "left" }}>
+            {JSON.stringify(productInfo, null, 2)}
+          </pre>
+        )}
       </p>
     </div>
   );
