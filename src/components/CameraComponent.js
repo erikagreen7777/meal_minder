@@ -70,9 +70,9 @@ const CameraComponent = () => {
         <span>Last result:</span>
         <span>{result}</span>
         {productInfo && (
-          <pre style={{ fontSize: "12px", alignItems: "left" }}>
+          <p style={{ fontSize: "12px", alignItems: "left" }}>
             {JSON.stringify(productInfo, null, 2)}
-          </pre>
+          </p>
         )}
       </p>
     </div>
