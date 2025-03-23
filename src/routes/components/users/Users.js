@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 export const Users = () => {
   const [users, setUsers] = useState(null);
 
@@ -16,16 +15,14 @@ export const Users = () => {
   }, []);
 
   return (
-    <Router>
-      <div>
-        {users ? `Found users: ${JSON.stringify(users)}` : "Loading..."}
-        <br />
-        <button onClick={getUser}>Get All Users</button>
-        {/* <br />
+    <div>
+      {users ? `Found users: ${JSON.stringify(users)}` : "Loading..."}
+      <br />
+      <button onClick={getUser}>Get All Users</button>
+      {/* <br />
       <button onClick={deleteMerchant}>Delete merchant</button>
       <br />
       <button onClick={updateMerchant}>Update merchant</button> */}
-      </div>
-    </Router>
+    </div>
   );
 };

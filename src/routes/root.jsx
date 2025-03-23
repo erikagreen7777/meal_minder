@@ -1,5 +1,5 @@
-import logo from "./mm_logo.png";
-import "./App.css";
+import logo from "../mm_logo.png";
+import "./root.css";
 import CameraComponent from "./components/CameraComponent";
 import { Users } from "./components/users/Users";
 
