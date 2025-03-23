@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 export const Users = () => {
   const [users, setUsers] = useState(null);
@@ -10,15 +10,15 @@ export const Users = () => {
     console.log(users);
   }
 
-  useEffect(() => {
+  const fetchUsers = useCallback(() => {
     getUser();
-  }, []);
+  }, [getUser]);
 
   return (
     <div>
       {users ? `Found users: ${JSON.stringify(users)}` : "Loading..."}
       <br />
-      <button onClick={getUser}>Get All Users</button>
+      <button onClick={fetchUsers}>Get All Users</button>
       {/* <br />
       <button onClick={deleteMerchant}>Delete merchant</button>
       <br />
