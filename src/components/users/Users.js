@@ -7,12 +7,11 @@ export const Users = () => {
     fetch("/users")
       .then((response) => response.json())
       .then((data) => setUsers(data));
-    console.log(users);
   }
 
   const fetchUsers = useCallback(() => {
     getUser();
-  }, [getUser]);
+  }, []);
 
   return (
     <div>

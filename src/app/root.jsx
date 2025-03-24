@@ -1,19 +1,20 @@
-import logo from "../mm_logo.png";
+import logo from "../assets/mm_logo.png";
 import "./root.css";
-import CameraComponent from "../components/CameraComponent";
-import { Users } from "../components/users/Users";
+import CameraComponent from "../components/inventory/CameraComponent";
+import { Link } from "react-router";
+import { Navigation } from "../components/navigation/Navigation";
 
 function App() {
   return (
     <div className="App">
+      <Navigation />
       <header className="App-header">
-        <Users />
         <h1>Meal Minder</h1>
-        <img src={logo} />
-        <div>
+        <img src={logo} alt="" />
+        {/* <div>
           <label htmlFor="barcode">Barcode</label>
         </div>
-        <CameraComponent />
+        <CameraComponent /> */}
       </header>
     </div>
   );

@@ -1,7 +1,16 @@
+:root {
+  --primary-color: #387990;
+  --secondary-color: #113033;
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
 .App {
   text-align: center;
 }
-
 
 .App-header {
   background: linear-gradient(-45deg, #387990, #67aabf);

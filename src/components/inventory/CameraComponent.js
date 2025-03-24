@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
-import { GetProductInfo } from "../api/GetProductInfo";
-import { AddButton } from "./AddButton";
+import { GetProductInfo } from "../../api/GetProductInfo";
+import { AddButton } from "../buttons/AddButton";
 
 const CameraComponent = () => {
   const [error, setError] = useState(null);
