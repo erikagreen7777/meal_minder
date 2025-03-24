@@ -1,13 +1,11 @@
 import logo from "../assets/mm_logo.png";
 import "./root.css";
-import CameraComponent from "../components/inventory/CameraComponent";
-import { Link } from "react-router";
-import { Navigation } from "../components/navigation/Navigation";
+import { Navigation } from "../components/navigation/NavigationBar";
 
 function App() {
   return (
     <div className="App">
-      <Navigation />
+      <Navigation id="Nav-header"/>
       <header className="App-header">
         <h1>Meal Minder</h1>
         <img src={logo} alt="" />

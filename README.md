@@ -1,3 +1,5 @@
+This app is designed to help you keep track of your kitchen inventory, manage recipes (eventually with grocery shopping integration), and eventually food logging with AI.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

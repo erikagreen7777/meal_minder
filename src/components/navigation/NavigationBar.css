@@ -1,0 +1,14 @@
+#navlogo {
+    float: left;
+    height: 14vh;
+}
+
+nav {
+    font-size: 1.5em;
+    display: flex;
+    height: 14vh;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
