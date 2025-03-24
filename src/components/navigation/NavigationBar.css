@@ -1,6 +1,14 @@
 #navlogo {
-    float: left;
     height: 14vh;
+    padding-right: 20vw;
+}
+
+.navlinks {
+    width: 30%;
+    justify-content: space-around;
+    display: flex;
+    padding-left: 20vw;
+    float: right;
 }
 
 nav {
@@ -10,5 +18,7 @@ nav {
     justify-content: space-around;
     align-items: center;
 }
+
+
 
 

@@ -6,6 +6,7 @@ export function Navigation() {
   return (
       <nav>
       <img src={logo} id="navlogo" alt="" />
+      <div className="navlinks">
         <NavLink to="/" end>
           Home
         </NavLink>
@@ -14,6 +15,7 @@ export function Navigation() {
         </NavLink>
         <NavLink to="/signup">Signup</NavLink>
         <NavLink to="/newInventory">Add Inventory</NavLink>
+        </div>
       </nav>
   );
 }

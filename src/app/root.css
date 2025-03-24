@@ -1,6 +1,7 @@
 :root {
   --primary-color: #fcf7f8;
   --secondary-color: #111d13;  --nav-color: #fcf7f8;
+  --font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -14,12 +15,24 @@ body {
 
 .App-header {
   /* background: linear-gradient(-45deg, #387990, #67aabf); */
-  min-height: 100vh;
+  min-height: 13vh;
   /* display: flex;
   flex-direction: column; */
   align-items: center;
   justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
   font-size: calc(20px + 2vmin);
   /* color: #113033; */
+}
+
+.App-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: calc(10px + 2vmin);
+  color: #113033;
+  padding-left: 8vw;
+  padding-right: 8vw;
 }
