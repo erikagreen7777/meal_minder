@@ -19,7 +19,7 @@ export function Navigation() {
           <Nav variant="underline" className="ms-auto my-2 my-lg-0">
             <Nav.Item>
               <Nav.Link as={NavLink} to="/signup">
-                Signup
+                Sign up
               </Nav.Link>
             </Nav.Item>
 
