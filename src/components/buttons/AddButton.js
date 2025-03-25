@@ -1,5 +1,4 @@
 import React from "react";
-import "./AddButton.css";
 
 export const AddButton = () => {
   const handleClick = () => {

@@ -4,6 +4,7 @@ import Root from "./root";
 import UsersPage from "./routes/user";
 import SignupPage from "./routes/signup";
 import NewInventory from "./routes/newInventory";
+import LoginPage from "./routes/login";
 
 const router = createBrowserRouter([
   {
@@ -18,8 +19,9 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignupPage />,
   },
+  {path: "/login", element: <LoginPage />},
   { 
-    path: "/newInventory", 
+    path: "/new-inventory", 
     element: <NewInventory /> 
   },
 ]);
