@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Container } from "react-bootstrap";
 
 export const Users = () => {
   const [users, setUsers] = useState(null);
@@ -14,7 +15,7 @@ export const Users = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       {users ? `Found users: ${JSON.stringify(users)}` : "Loading..."}
       <br />
       <button onClick={fetchUsers}>Get All Users</button>
@@ -22,6 +23,6 @@ export const Users = () => {
       <button onClick={deleteMerchant}>Delete merchant</button>
       <br />
       <button onClick={updateMerchant}>Update merchant</button> */}
-    </div>
+    </Container>
   );
 };
