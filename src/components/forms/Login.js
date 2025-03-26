@@ -1,47 +1,64 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import validateEmail from "../utils/validateEmail";
+import { getUserInfo } from "../../api/getUserInfo";
 
-function validateEmail(email) {
-  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-  //   console.log(emailRegex.test(email));
-  return emailRegex.test(email);
-}
+// TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
+// TODO: Reset password option
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  //   const [passwordError, setPasswordError] = useState("");
   const [validated, setValidated] = useState(false);
-  // const [loginError, setLoginError] = useState("");
+  const [userData, setUserData] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const emailValue = e.currentTarget.elements.formEmail.value;
-    if (!validateEmail(emailValue)) {
+    setEmail(e.currentTarget.elements.formEmail.value);
+    setPassword(e.currentTarget.elements.formPassword.value);
+  }
+
+  useEffect(() => {
+    const validatedEmail = validateEmail(email);
+    if (validatedEmail === false) {
       setEmailError("Invalid email");
     } else {
-      setEmail(emailValue);
-    }
-
-    setPassword(e.currentTarget.elements.formPassword.value);
-
-    if (password && email) {
-      console.log("hi");
       setValidated(true);
+      setEmailError("");
+      const fetchUserInfo = async () => {
+        try {
+          const userDataFromApi = await getUserInfo(email);
+          if (userDataFromApi) {
+            // get password and email address and compare with DB to authorization.
+          } else {
+            // session cookie/token thing and then redirect to dashboard
+          }
+        } catch (error) {
+          console.log(error); // setEmailError?
+        }
+      };
+      fetchUserInfo();
     }
-  }
+  }, [email]);
 
   return (
     <>
       <h1>Login</h1>
-      <Form validated={validated} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" required />
-          {/* how to do error handling */}
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            required
+            isInvalid={emailError}
+          />
+          <Form.Control.Feedback type="invalid">
+            {emailError}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formPassword">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
-import { GetProductInfo } from "../../api/GetProductInfo";
+import { getProductInfo } from "../../api/getProductInfo";
 import { AddButton } from "../buttons/AddButton";
 
 const CameraComponent = () => {
@@ -47,7 +47,7 @@ const CameraComponent = () => {
     if (result && result !== "No barcode found") {
       const fetchProductInfo = async () => {
         try {
-          setProductInfo(await GetProductInfo(result));
+          setProductInfo(await getProductInfo(result));
         } catch (error) {
           setError("Product not found: " + error.message);
         }
