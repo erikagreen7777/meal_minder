@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
+import validateName from "../utils/validateName";
 import { getUserInfo } from "../../api/getUserInfo";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
@@ -12,12 +13,18 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [validated, setValidated] = useState(false);
-  const [userData, setUserData] = useState(null);
+  //   const [userData, setUserData] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [lastName, setLastName] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
     setEmail(e.currentTarget.elements.formEmail.value);
     setPassword(e.currentTarget.elements.formPassword.value);
+    setFirstName(e.currentTarget.elements.firstName.value);
+    setLastName(e.currentTarget.elements.lastName.value);
   }
 
   useEffect(() => {
@@ -44,6 +51,22 @@ export default function Signup() {
     }
   }, [email]);
 
+  useEffect(() => {
+    const validatedFirstName = validateName(firstName);
+    if (validatedFirstName === false) {
+      setFirstNameError("Invalid first name");
+    } else {
+      setFirstNameError("");
+    }
+
+    const validatedLastName = validateName(lastName);
+    if (validatedLastName === false) {
+      setLastNameError("Invalid last name");
+    } else {
+      setLastNameError("");
+    }
+  }, [firstName, lastName]);
+
   return (
     <>
       <h1>Sign up</h1>
@@ -55,7 +78,7 @@ export default function Signup() {
             type="email"
             placeholder="Enter email"
             required
-            isInvalid={emailError}
+            // isInvalid={emailError}
           />
           <Form.Control.Feedback type="invalid">
             {emailError}
@@ -65,11 +88,17 @@ export default function Signup() {
         <Form.Group className="mb-3" controlId="firstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control type="text" placeholder="First Name" required />
+          <Form.Control.Feedback type="invalid">
+            {firstNameError}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="lastName">
           <Form.Label>Last Name</Form.Label>
           <Form.Control type="text" placeholder="Last Name" required />
+          <Form.Control.Feedback type="invalid">
+            {lastNameError}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formPassword">
