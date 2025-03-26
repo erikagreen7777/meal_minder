@@ -32,7 +32,7 @@ export default function Login() {
         try {
           const userDataFromApi = await getUserInfo(email);
           if (userDataFromApi) {
-            // get password and email address and compare with DB to authorization.
+            // get password and email address and compare with DB to authorize.
           } else {
             // session cookie/token thing and then redirect to dashboard
           }

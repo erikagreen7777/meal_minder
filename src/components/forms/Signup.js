@@ -16,7 +16,6 @@ export default function Signup() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     setEmail(e.currentTarget.elements.formEmail.value);
     setPassword(e.currentTarget.elements.formPassword.value);
   }
@@ -63,9 +62,19 @@ export default function Signup() {
           </Form.Control.Feedback>
         </Form.Group>
 
+        <Form.Group className="mb-3" controlId="firstName">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control type="text" placeholder="First Name" required />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="lastName">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control type="text" placeholder="Last Name" required />
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" required />
+          <Form.Label>CreatePassword</Form.Label>
+          <Form.Control type="text" placeholder="Password" required />
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
