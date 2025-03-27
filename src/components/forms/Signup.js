@@ -6,6 +6,9 @@ import validateName from "../utils/validateName";
 import { getUserInfo } from "../../api/getUserInfo";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
+// TODO: the handleSubmit isn't actually handling any submitting - it's happening in the useEffect,
+//       which doesn't make a lot of sense. this could be figured out with the field level validation TODO above
+// TODO: Password strength meter
 // TODO: Reset password option
 
 export default function Signup() {
@@ -13,11 +16,11 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [validated, setValidated] = useState(false);
-  //   const [userData, setUserData] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [lastName, setLastName] = useState("");
+  const [userData, setUserData] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -32,7 +35,6 @@ export default function Signup() {
     if (validatedEmail === false) {
       setEmailError("Invalid email");
     } else {
-      setValidated(true);
       setEmailError("");
       const fetchUserInfo = async () => {
         try {
@@ -40,11 +42,10 @@ export default function Signup() {
           if (userDataFromApi.length > 0) {
             setEmailError("User already exists");
             throw new Error("User already exists");
-          } else {
-            // send the email and password to DB for saving
           }
         } catch (error) {
-          console.log(error); // setEmailError?
+          console.log(error);
+          setEmailError(error);
         }
       };
       fetchUserInfo();
@@ -67,6 +68,23 @@ export default function Signup() {
     }
   }, [firstName, lastName]);
 
+  useEffect(() => {
+    if (
+      email &&
+      firstName &&
+      lastName &&
+      !emailError &&
+      !firstNameError &&
+      !lastNameError
+    ) {
+      setValidated(true);
+      console.log("validated set to true");
+      //send data to BE
+      setUserData({ email, firstName, lastName, password });
+      console.log("User data: ", { email, firstName, lastName, password });
+    }
+  }, [email, firstName, lastName, emailError, firstNameError, lastNameError]);
+
   return (
     <>
       <h1>Sign up</h1>
@@ -78,26 +96,36 @@ export default function Signup() {
             type="email"
             placeholder="Enter email"
             required
-            // isInvalid={emailError}
+            isInvalid={email && emailError}
           />
           <Form.Control.Feedback type="invalid">
-            {emailError}
+            {email && emailError}
           </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="firstName">
           <Form.Label>First Name</Form.Label>
-          <Form.Control type="text" placeholder="First Name" required />
+          <Form.Control
+            type="text"
+            placeholder="First Name"
+            required
+            isInvalid={firstName && firstNameError}
+          />
           <Form.Control.Feedback type="invalid">
-            {firstNameError}
+            {firstName && firstNameError}
           </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="lastName">
           <Form.Label>Last Name</Form.Label>
-          <Form.Control type="text" placeholder="Last Name" required />
+          <Form.Control
+            type="text"
+            placeholder="Last Name"
+            required
+            isInvalid={lastName && lastNameError}
+          />
           <Form.Control.Feedback type="invalid">
-            {lastNameError}
+            {lastName && lastNameError}
           </Form.Control.Feedback>
         </Form.Group>
 
