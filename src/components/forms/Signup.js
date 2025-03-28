@@ -4,23 +4,23 @@ import { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
 import validateName from "../utils/validateName";
 import { getUserInfo } from "../../api/getUserInfo";
+import { createUser } from "../../api/createUser";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
 // TODO: the handleSubmit isn't actually handling any submitting - it's happening in the useEffect,
 //       which doesn't make a lot of sense. this could be figured out with the field level validation TODO above
 // TODO: Password strength meter
 // TODO: Reset password option
+// TODO: general error component
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [validated, setValidated] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userData, setUserData] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -77,11 +77,19 @@ export default function Signup() {
       !firstNameError &&
       !lastNameError
     ) {
-      setValidated(true);
-      console.log("validated set to true");
-      //send data to BE
-      setUserData({ email, firstName, lastName, password });
-      console.log("User data: ", { email, firstName, lastName, password });
+      const sendCreateUser = async () => {
+        try {
+          const userDataToApi = await createUser({
+            email,
+            firstName,
+            lastName,
+            password,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      sendCreateUser();
     }
   }, [email, firstName, lastName, emailError, firstNameError, lastNameError]);
 
