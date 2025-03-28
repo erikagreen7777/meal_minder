@@ -1,7 +1,4 @@
-
-
 export const createUser = async (userData) => {
-  console.log("postCreateUser", JSON.stringify(userData));
   try {
     const response = await fetch("/createUser", {
       method: "POST",
@@ -14,7 +11,7 @@ export const createUser = async (userData) => {
       throw new Error(`Response status: ${response.status}`);
     }
     const json = await response.json();
-    console.log("response", json);
+    console.log("createUser:", json);
     return json;
   } catch (error) {
     console.log(error);

@@ -3,8 +3,8 @@ import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
 import validateName from "../utils/validateName";
-import { getUserInfo } from "../../api/getUserInfo";
-import { createUser } from "../../api/createUser";
+import sendCreateUser from "../utils/createNewUser";
+import fetchUserInfo from "../utils/fetchUserInfo";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
 // TODO: the handleSubmit isn't actually handling any submitting - it's happening in the useEffect,
@@ -21,54 +21,25 @@ export default function Signup() {
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [lastName, setLastName] = useState("");
+  const [generalError, setGeneralError] = useState(null);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setEmail(e.currentTarget.elements.formEmail.value);
     setPassword(e.currentTarget.elements.formPassword.value);
     setFirstName(e.currentTarget.elements.firstName.value);
     setLastName(e.currentTarget.elements.lastName.value);
-  }
 
-  useEffect(() => {
-    const validatedEmail = validateEmail(email);
-    if (validatedEmail === false) {
-      setEmailError("Invalid email");
-    } else {
-      setEmailError("");
-      const fetchUserInfo = async () => {
-        try {
-          const userDataFromApi = await getUserInfo(email);
-          if (userDataFromApi.length > 0) {
-            setEmailError("User already exists");
-            throw new Error("User already exists");
-          }
-        } catch (error) {
-          console.log(error);
-          setEmailError(error);
-        }
-      };
-      fetchUserInfo();
+    if (!emailError) {
+      try {
+        const isDuplicateEmail = await fetchUserInfo(email);
+        console.log("hi", isDuplicateEmail);
+      } catch (error) {
+        setGeneralError(error.message);
+        console.log(error.message);
+      }
     }
-  }, [email]);
-
-  useEffect(() => {
-    const validatedFirstName = validateName(firstName);
-    if (validatedFirstName === false) {
-      setFirstNameError("Invalid first name");
-    } else {
-      setFirstNameError("");
-    }
-
-    const validatedLastName = validateName(lastName);
-    if (validatedLastName === false) {
-      setLastNameError("Invalid last name");
-    } else {
-      setLastNameError("");
-    }
-  }, [firstName, lastName]);
-
-  useEffect(() => {
+    console.log("in between");
     if (
       email &&
       firstName &&
@@ -77,26 +48,74 @@ export default function Signup() {
       !firstNameError &&
       !lastNameError
     ) {
-      const sendCreateUser = async () => {
-        try {
-          const userDataToApi = await createUser({
-            email,
-            firstName,
-            lastName,
-            password,
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      sendCreateUser();
+      try {
+        const createUser = await sendCreateUser({
+          email,
+          firstName,
+          lastName,
+          password,
+        }).then(console.log("Create user on FE", createUser));
+      } catch (error) {
+        setGeneralError(error.message);
+      }
     }
-  }, [email, firstName, lastName, emailError, firstNameError, lastNameError]);
+  }
+
+  useEffect(() => {
+    const validatedEmail = validateEmail(email);
+    !validatedEmail ? setEmailError("Invalid email") : setEmailError("");
+  }, [email]);
+
+  useEffect(() => {
+    const validatedFirstName = validateName(firstName);
+    !validatedFirstName
+      ? setFirstNameError("Invalid first name")
+      : setFirstNameError("");
+
+    const validatedLastName = validateName(lastName);
+    !validatedLastName
+      ? setLastNameError("Invalid last name")
+      : setLastNameError("");
+  }, [firstName, lastName]);
+
+  //   useEffect(() => {
+  // if (
+  //   email &&
+  //   firstName &&
+  //   lastName &&
+  //   !emailError &&
+  //   !firstNameError &&
+  //   !lastNameError
+  // ) {
+  //   const sendCreateUser = async () => {
+  //     try {
+  //       await createUser({
+  //         email,
+  //         firstName,
+  //         lastName,
+  //         password,
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   sendCreateUser();
+  //    }
+  //   }, [
+  //     email,
+  //     firstName,
+  //     lastName,
+  //     emailError,
+  //     firstNameError,
+  //     lastNameError,
+  //     password,
+  //   ]);
 
   return (
     <>
       <h1>Sign up</h1>
       {/* {userData ?? "No user found"} */}
+      {<h4 className="text-danger">{generalError}</h4>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>

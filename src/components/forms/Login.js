@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
-import { getUserInfo } from "../../api/getUserInfo";
+import getUserInfo from "../../api/getUserInfo";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
 // TODO: Reset password option

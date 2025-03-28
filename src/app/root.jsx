@@ -1,4 +1,4 @@
-import logo from "../assets/mm_logo.png";
+// import logo from "../assets/mm_logo.png";
 // import "./root.css";
 import { Navigation } from "../components/navigation/NavigationBar";
 import { Container } from "react-bootstrap";
