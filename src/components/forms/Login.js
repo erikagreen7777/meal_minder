@@ -1,53 +1,75 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import validateEmail from "../utils/validateEmail";
-import getUserEmail from "../../api/getUserEmail";
+import validateName from "../utils/validateName";
+import { createUser } from "../../api/createUser";
+import fetchUserInfo from "../utils/fetchUserInfo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-// TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
+// TODO: send the user to the dashboard, or where they're going to do the inventory stuff
+// TODO: Password strength meter
 // TODO: Reset password option
 
-export default function Login() {
+export default function Signup() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [validated, setValidated] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [systemMessage, setSystemMessage] = useState(null);
+  const [systemMessageClass, setSystemMessageClass] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-
     setEmail(e.currentTarget.elements.formEmail.value);
     setPassword(e.currentTarget.elements.formPassword.value);
 
-    const fetchUserInfo = async () => {
+    if (email && !emailError && password && !passwordError) {
       try {
-        const userDataFromApi = await getUserEmail(email);
-        if (userDataFromApi) {
-          // get password and email address and compare with DB to authorize.
+        const isDuplicateEmail = await fetchUserInfo(email);
+        if (!isDuplicateEmail) {
+          setEmailError("");
+          // const postCreateUser = await createUser({
+          //   email,
+          //   password,
+          // });
+          // CHECK IF THE USER EXISTS AND HAS THE RIGHT PASSWORD
+          setSystemMessage("Login successful");
+          setSystemMessageClass("text-success");
+          // SEND THEM TO THE DASHBOARD
         } else {
-          // session cookie/token thing and then redirect to dashboard
+          setEmailError("Email already exists");
         }
       } catch (error) {
-        console.log(error); // setEmailError?
+        setSystemMessage(error.message);
+        setSystemMessageClass("text-danger");
       }
-    };
-    fetchUserInfo();
+    } else {
+      setSystemMessage(emailError || passwordError);
+      setSystemMessageClass("text-danger");
+    }
   }
 
-  useEffect(() => {
-    const validatedEmail = validateEmail(email);
-    if (email.length > 0 && validatedEmail === false) {
-      setEmailError("Invalid email");
-    } else {
-      setValidated(true);
-      setEmailError("");
-    }
-  }, [email]);
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // 5 is an arbitrary length
+    email.length > 3 && !validateEmail(email)
+      ? setEmailError("Invalid email")
+      : setEmailError("");
+  };
 
   return (
     <>
       <h1>Login</h1>
+      {<h4 className={systemMessageClass}>{systemMessage}</h4>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
@@ -56,15 +78,33 @@ export default function Login() {
             placeholder="Enter email"
             required
             isInvalid={emailError}
+            onChange={handleEmailChange}
+            value={email}
           />
           <Form.Control.Feedback type="invalid">
-            {emailError}
+            {email && emailError}
           </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" required />
+          <div className="input-group">
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              required
+            />
+            <Button
+              variant="outline-secondary"
+              onClick={handleTogglePassword}
+              className="input-group-text password-toggle"
+            >
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                className="password-icon"
+              />
+            </Button>
+          </div>
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit

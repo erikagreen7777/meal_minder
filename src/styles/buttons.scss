@@ -7,3 +7,22 @@
       color: #CED3DC;
     }
   }
+
+  .password-toggle {
+    border-color: #ced4da;
+    background-color: transparent; 
+
+    &:hover {
+      background-color: #CED3DC;
+    }
+    
+    .password-icon {
+      color: #3E4C5E; 
+    }
+  
+    &:hover {
+      .password-icon {
+        color: darken(#3E4C5E, 10%);
+      }
+    }
+  }
