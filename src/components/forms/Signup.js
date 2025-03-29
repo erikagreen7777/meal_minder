@@ -6,10 +6,7 @@ import validateName from "../utils/validateName";
 import { createUser } from "../../api/createUser";
 import fetchUserInfo from "../utils/fetchUserInfo";
 
-// TODO: There's something weird with the state where you're having to hit the submit button twice after an error, and
-// the general catch block onSubmit is spitting out that user already exists when there's an email validation error.
 // TODO: send the user to the dashboard, or where they're going to do the inventory stuff
-// TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
 // TODO: Password strength meter
 // TODO: Reset password option
 
@@ -49,14 +46,12 @@ export default function Signup() {
             lastName,
             password,
           });
-          console.log("User created successfully:", postCreateUser);
           setSystemMessage("Account created successfully");
           setSystemMessageClass("text-success");
         } else {
           setEmailError("Email already exists");
         }
       } catch (error) {
-        console.log("Signup error");
         setSystemMessage(error.message);
         setSystemMessageClass("text-danger");
       }
