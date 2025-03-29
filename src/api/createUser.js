@@ -11,7 +11,6 @@ export const createUser = async (userData) => {
       throw new Error(`Response status: ${response.status}`);
     }
     const json = await response.json();
-    console.log("createUser:", json);
     return json;
   } catch (error) {
     console.log(error);

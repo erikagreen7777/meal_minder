@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
 import validateName from "../utils/validateName";
-import sendCreateUser from "../utils/createNewUser";
+import { createUser } from "../../api/createUser";
 import fetchUserInfo from "../utils/fetchUserInfo";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
@@ -30,16 +30,6 @@ export default function Signup() {
     setFirstName(e.currentTarget.elements.firstName.value);
     setLastName(e.currentTarget.elements.lastName.value);
 
-    if (!emailError) {
-      try {
-        const isDuplicateEmail = await fetchUserInfo(email);
-        console.log("hi", isDuplicateEmail);
-      } catch (error) {
-        setGeneralError(error.message);
-        console.log(error.message);
-      }
-    }
-    console.log("in between");
     if (
       email &&
       firstName &&
@@ -49,13 +39,23 @@ export default function Signup() {
       !lastNameError
     ) {
       try {
-        const createUser = await sendCreateUser({
-          email,
-          firstName,
-          lastName,
-          password,
-        }).then(console.log("Create user on FE", createUser));
+        const isDuplicateEmail = await fetchUserInfo(email);
+        if (!isDuplicateEmail) {
+          setEmailError("");
+          const postCreateUser = await createUser({
+            email,
+            firstName,
+            lastName,
+            password,
+          });
+          console.log("User created successfully:", postCreateUser);
+          setGeneralError("");
+        } else {
+          console.log("Email already exists");
+          setEmailError("Email already exists");
+        }
       } catch (error) {
+        console.log("Signup error");
         setGeneralError(error.message);
       }
     }
@@ -78,43 +78,9 @@ export default function Signup() {
       : setLastNameError("");
   }, [firstName, lastName]);
 
-  //   useEffect(() => {
-  // if (
-  //   email &&
-  //   firstName &&
-  //   lastName &&
-  //   !emailError &&
-  //   !firstNameError &&
-  //   !lastNameError
-  // ) {
-  //   const sendCreateUser = async () => {
-  //     try {
-  //       await createUser({
-  //         email,
-  //         firstName,
-  //         lastName,
-  //         password,
-  //       });
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   sendCreateUser();
-  //    }
-  //   }, [
-  //     email,
-  //     firstName,
-  //     lastName,
-  //     emailError,
-  //     firstNameError,
-  //     lastNameError,
-  //     password,
-  //   ]);
-
   return (
     <>
       <h1>Sign up</h1>
-      {/* {userData ?? "No user found"} */}
       {<h4 className="text-danger">{generalError}</h4>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formEmail">
