@@ -7,6 +7,8 @@ import { createUser } from "../../api/createUser";
 import fetchUserInfo from "../utils/fetchUserInfo";
 
 // TODO: send the user to the dashboard, or where they're going to do the inventory stuff
+// TODO: session cookie stuff
+// TODO: confirm password field (type it twice)
 // TODO: Password strength meter
 // TODO: Reset password option
 
@@ -38,7 +40,7 @@ export default function Signup() {
     ) {
       try {
         const isDuplicateEmail = await fetchUserInfo(email);
-        if (!isDuplicateEmail) {
+        if (isDuplicateEmail.length === 0) {
           setEmailError("");
           const postCreateUser = await createUser({
             email,
@@ -49,7 +51,9 @@ export default function Signup() {
           setSystemMessage("Account created successfully");
           setSystemMessageClass("text-success");
         } else {
-          setEmailError("Email already exists");
+          setSystemMessage("User already exists");
+          setSystemMessageClass("text-danger");
+          throw new Error("User already exists");
         }
       } catch (error) {
         setSystemMessage(error.message);

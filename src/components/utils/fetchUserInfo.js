@@ -1,12 +1,11 @@
-import getUserInfo from "../../api/getUserEmail";
+import getUserEmail from "../../api/getUserEmail";
 
 export default async function fetchUserInfo(email) {
+  // console.log("hi from fetchUserInfo", email);
   try {
-    const userDataFromApi = await getUserInfo(email);
-    if (userDataFromApi.length > 0) {
-      console.log(JSON.stringify(userDataFromApi));
-      throw new Error("User already exists");
-    }
+    const userDataFromApi = await getUserEmail(email);
+    console.log("userDataFromApi", JSON.stringify(userDataFromApi));
+    return userDataFromApi[0];
   } catch (error) {
     throw new Error(error);
   }

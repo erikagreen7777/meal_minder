@@ -2,13 +2,12 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import validateEmail from "../utils/validateEmail";
-import validateName from "../utils/validateName";
-import { createUser } from "../../api/createUser";
 import fetchUserInfo from "../utils/fetchUserInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 // TODO: send the user to the dashboard, or where they're going to do the inventory stuff
+// TODO: session cookie stuff
 // TODO: Password strength meter
 // TODO: Reset password option
 
@@ -17,31 +16,29 @@ export default function Signup() {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState(null);
   const [systemMessage, setSystemMessage] = useState(null);
   const [systemMessageClass, setSystemMessageClass] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setEmail(e.currentTarget.elements.formEmail.value);
     setPassword(e.currentTarget.elements.formPassword.value);
 
     if (email && !emailError && password && !passwordError) {
       try {
-        const isDuplicateEmail = await fetchUserInfo(email);
-        if (!isDuplicateEmail) {
-          setEmailError("");
-          // const postCreateUser = await createUser({
-          //   email,
-          //   password,
-          // });
+        const doesUserExist = await fetchUserInfo(email);
+
+        if (!doesUserExist) {
+          setSystemMessage("User does not exist");
+          setSystemMessageClass("text-danger");
+        } else {
+          console.log("hi", doesUserExist.email);
           // CHECK IF THE USER EXISTS AND HAS THE RIGHT PASSWORD
           setSystemMessage("Login successful");
           setSystemMessageClass("text-success");
-          // SEND THEM TO THE DASHBOARD
-        } else {
-          setEmailError("Email already exists");
         }
+
+        // SEND THEM TO THE DASHBOARD
       } catch (error) {
         setSystemMessage(error.message);
         setSystemMessageClass("text-danger");
@@ -61,7 +58,7 @@ export default function Signup() {
     setEmail(value);
 
     // 5 is an arbitrary length
-    email.length > 3 && !validateEmail(email)
+    email.length > 5 && !validateEmail(email)
       ? setEmailError("Invalid email")
       : setEmailError("");
   };
