@@ -2,6 +2,7 @@
 // import "./root.css";
 import { Navigation } from "../components/navigation/NavigationBar";
 import { Container } from "react-bootstrap";
+import "../styles/main.scss";
 
 function App() {
   return (

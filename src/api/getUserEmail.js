@@ -1,4 +1,4 @@
-export default async function getUserInfo(email) {
+export default async function getUserEmail(email) {
   const encodedEmail = encodeURIComponent(email);
   try {
     const response = await fetch(`/userExists?email=${encodedEmail}`);

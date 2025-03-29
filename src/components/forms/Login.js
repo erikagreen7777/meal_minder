@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
-import getUserInfo from "../../api/getUserInfo";
+import getUserEmail from "../../api/getUserEmail";
 
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
 // TODO: Reset password option
@@ -19,28 +19,29 @@ export default function Login() {
 
     setEmail(e.currentTarget.elements.formEmail.value);
     setPassword(e.currentTarget.elements.formPassword.value);
+
+    const fetchUserInfo = async () => {
+      try {
+        const userDataFromApi = await getUserEmail(email);
+        if (userDataFromApi) {
+          // get password and email address and compare with DB to authorize.
+        } else {
+          // session cookie/token thing and then redirect to dashboard
+        }
+      } catch (error) {
+        console.log(error); // setEmailError?
+      }
+    };
+    fetchUserInfo();
   }
 
   useEffect(() => {
     const validatedEmail = validateEmail(email);
-    if (validatedEmail === false) {
+    if (email.length > 0 && validatedEmail === false) {
       setEmailError("Invalid email");
     } else {
       setValidated(true);
       setEmailError("");
-      const fetchUserInfo = async () => {
-        try {
-          const userDataFromApi = await getUserInfo(email);
-          if (userDataFromApi) {
-            // get password and email address and compare with DB to authorize.
-          } else {
-            // session cookie/token thing and then redirect to dashboard
-          }
-        } catch (error) {
-          console.log(error); // setEmailError?
-        }
-      };
-      fetchUserInfo();
     }
   }, [email]);
 

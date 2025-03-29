@@ -1,17 +1,17 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import validateEmail from "../utils/validateEmail";
 import validateName from "../utils/validateName";
 import { createUser } from "../../api/createUser";
 import fetchUserInfo from "../utils/fetchUserInfo";
 
+// TODO: There's something weird with the state where you're having to hit the submit button twice after an error, and
+// the general catch block onSubmit is spitting out that user already exists when there's an email validation error.
+// TODO: send the user to the dashboard, or where they're going to do the inventory stuff
 // TODO: As you type validation: https://react-bootstrap.netlify.app/docs/forms/validation/#feedback
-// TODO: the handleSubmit isn't actually handling any submitting - it's happening in the useEffect,
-//       which doesn't make a lot of sense. this could be figured out with the field level validation TODO above
 // TODO: Password strength meter
 // TODO: Reset password option
-// TODO: general error component
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -21,7 +21,8 @@ export default function Signup() {
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [lastName, setLastName] = useState("");
-  const [generalError, setGeneralError] = useState(null);
+  const [systemMessage, setSystemMessage] = useState(null);
+  const [systemMessageClass, setSystemMessageClass] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -49,39 +50,54 @@ export default function Signup() {
             password,
           });
           console.log("User created successfully:", postCreateUser);
-          setGeneralError("");
+          setSystemMessage("Account created successfully");
+          setSystemMessageClass("text-success");
         } else {
-          console.log("Email already exists");
           setEmailError("Email already exists");
         }
       } catch (error) {
         console.log("Signup error");
-        setGeneralError(error.message);
+        setSystemMessage(error.message);
+        setSystemMessageClass("text-danger");
       }
+    } else {
+      setSystemMessage(emailError || firstNameError || lastNameError);
+      setSystemMessageClass("text-danger");
     }
   }
 
-  useEffect(() => {
-    const validatedEmail = validateEmail(email);
-    !validatedEmail ? setEmailError("Invalid email") : setEmailError("");
-  }, [email]);
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
 
-  useEffect(() => {
-    const validatedFirstName = validateName(firstName);
-    !validatedFirstName
+    // 5 is an arbitrary length
+    email.length > 3 && !validateEmail(email)
+      ? setEmailError("Invalid email")
+      : setEmailError("");
+  };
+
+  const handleFirstNameChange = (e) => {
+    const value = e.target.value;
+    setFirstName(value);
+
+    !validateName(firstName)
       ? setFirstNameError("Invalid first name")
       : setFirstNameError("");
+  };
 
-    const validatedLastName = validateName(lastName);
-    !validatedLastName
+  const handleLastNameChange = (e) => {
+    const value = e.target.value;
+    setLastName(value);
+
+    !validateName(lastName)
       ? setLastNameError("Invalid last name")
       : setLastNameError("");
-  }, [firstName, lastName]);
+  };
 
   return (
     <>
       <h1>Sign up</h1>
-      {<h4 className="text-danger">{generalError}</h4>}
+      {<h4 className={systemMessageClass}>{systemMessage}</h4>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
@@ -89,7 +105,9 @@ export default function Signup() {
             type="email"
             placeholder="Enter email"
             required
-            isInvalid={email && emailError}
+            isInvalid={emailError}
+            onChange={handleEmailChange}
+            value={email}
           />
           <Form.Control.Feedback type="invalid">
             {email && emailError}
@@ -102,7 +120,9 @@ export default function Signup() {
             type="text"
             placeholder="First Name"
             required
-            isInvalid={firstName && firstNameError}
+            isInvalid={firstNameError}
+            value={firstName}
+            onChange={handleFirstNameChange}
           />
           <Form.Control.Feedback type="invalid">
             {firstName && firstNameError}
@@ -115,7 +135,9 @@ export default function Signup() {
             type="text"
             placeholder="Last Name"
             required
-            isInvalid={lastName && lastNameError}
+            isInvalid={lastNameError}
+            value={lastName}
+            onChange={handleLastNameChange}
           />
           <Form.Control.Feedback type="invalid">
             {lastName && lastNameError}

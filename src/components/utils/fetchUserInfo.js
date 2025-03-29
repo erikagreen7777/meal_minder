@@ -1,4 +1,4 @@
-import getUserInfo from "../../api/getUserInfo";
+import getUserInfo from "../../api/getUserEmail";
 
 export default async function fetchUserInfo(email) {
   try {
