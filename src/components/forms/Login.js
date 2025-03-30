@@ -2,14 +2,16 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import validateEmail from "../utils/validateEmail";
-import fetchUserInfo from "../utils/fetchUserInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { authenticateUser } from "../../api/authenticateUser";
 
 // TODO: send the user to the dashboard, or where they're going to do the inventory stuff
 // TODO: session cookie stuff
 // TODO: Password strength meter
 // TODO: Reset password option
+
+// test
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -20,21 +22,16 @@ export default function Signup() {
   const [systemMessage, setSystemMessage] = useState(null);
   const [systemMessageClass, setSystemMessageClass] = useState("");
 
+  //TODO: Make systemMessages and class one object so it's cleaner
   async function handleSubmit(e) {
     e.preventDefault();
     setPassword(e.currentTarget.elements.formPassword.value);
 
     if (email && !emailError && password && !passwordError) {
       try {
-        const doesUserExist = await fetchUserInfo(email);
-
-        if (!doesUserExist) {
-          setSystemMessage("User does not exist");
-          setSystemMessageClass("text-danger");
-        } else {
-          console.log("hi", doesUserExist.email);
-          // CHECK IF THE USER EXISTS AND HAS THE RIGHT PASSWORD
-          setSystemMessage("Login successful");
+        const isUserAuthenticated = await authenticateUser({ email, password });
+        if (isUserAuthenticated.isMatch) {
+          setSystemMessage("Login Successful");
           setSystemMessageClass("text-success");
         }
 

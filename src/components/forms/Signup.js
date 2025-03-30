@@ -40,7 +40,7 @@ export default function Signup() {
     ) {
       try {
         const isDuplicateEmail = await fetchUserInfo(email);
-        if (isDuplicateEmail.length === 0) {
+        if (!isDuplicateEmail) {
           setEmailError("");
           const postCreateUser = await createUser({
             email,
