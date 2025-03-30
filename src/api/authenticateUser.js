@@ -13,7 +13,6 @@ export const authenticateUser = async (userData) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log(error.message);
     throw new Error(
       `There was an issue logging in. Please check your email and password`
     );

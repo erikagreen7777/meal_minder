@@ -5,6 +5,7 @@ import UsersPage from "./routes/user";
 import SignupPage from "./routes/signup";
 import NewInventory from "./routes/newInventory";
 import LoginPage from "./routes/login";
+import DashboardPage from "./routes/dashboard";
 
 const router = createBrowserRouter([
   {
@@ -15,15 +16,16 @@ const router = createBrowserRouter([
     path: "/users",
     element: <UsersPage />,
   },
-  { 
+  {
     path: "/signup",
     element: <SignupPage />,
   },
-  {path: "/login", element: <LoginPage />},
-  { 
-    path: "/new-inventory", 
-    element: <NewInventory /> 
+  { path: "/login", element: <LoginPage /> },
+  {
+    path: "/new-inventory",
+    element: <NewInventory />,
   },
+  { path: "/dashboard", element: <DashboardPage /> },
 ]);
 
 export default router;

@@ -25,11 +25,13 @@ export default function Signup() {
   //TODO: Make systemMessages and class one object so it's cleaner
   async function handleSubmit(e) {
     e.preventDefault();
-    setPassword(e.currentTarget.elements.formPassword.value);
 
     if (email && !emailError && password && !passwordError) {
       try {
-        const isUserAuthenticated = await authenticateUser({ email, password });
+        const isUserAuthenticated = await authenticateUser({
+          email,
+          password,
+        });
         if (isUserAuthenticated.isMatch) {
           setSystemMessage("Login Successful");
           setSystemMessageClass("text-success");
@@ -60,6 +62,10 @@ export default function Signup() {
       : setEmailError("");
   };
 
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+  };
   return (
     <>
       <h1>Login</h1>
@@ -86,6 +92,8 @@ export default function Signup() {
             <Form.Control
               type={showPassword ? "text" : "password"}
               placeholder="Password"
+              onChange={handlePasswordChange}
+              value={password}
               required
             />
             <Button
