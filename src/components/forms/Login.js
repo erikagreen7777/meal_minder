@@ -32,9 +32,13 @@ export default function Signup() {
           email,
           password,
         });
-        if (isUserAuthenticated.isMatch) {
+        console.log("isUserAuthenticated", isUserAuthenticated);
+        if (isUserAuthenticated) {
           setSystemMessage("Login Successful");
           setSystemMessageClass("text-success");
+        } else {
+          setSystemMessage("Please check your email and password");
+          setSystemMessageClass("text-danger");
         }
 
         // SEND THEM TO THE DASHBOARD

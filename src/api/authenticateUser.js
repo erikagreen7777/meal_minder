@@ -5,6 +5,7 @@ export const authenticateUser = async (userData) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(userData),
     });
     if (!response.ok) {
@@ -13,8 +14,6 @@ export const authenticateUser = async (userData) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    throw new Error(
-      `There was an issue logging in. Please check your email and password`
-    );
+    console.log(error.message);
   }
 };

@@ -25,7 +25,10 @@ const router = createBrowserRouter([
     path: "/new-inventory",
     element: <NewInventory />,
   },
-  { path: "/dashboard", element: <DashboardPage /> },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+  },
 ]);
 
 export default router;
