@@ -1,6 +1,6 @@
-export const authenticateUser = async (userData) => {
+export const loginUser = async (userData) => {
   try {
-    const response = await fetch("/authenticateUser", {
+    const response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

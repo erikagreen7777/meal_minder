@@ -4,7 +4,8 @@ import { useState } from "react";
 import validateEmail from "../utils/validateEmail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { authenticateUser } from "../../api/authenticateUser";
+import { loginUser } from "../../api/loginUser";
+import { useNavigate } from "react-router";
 
 // TODO: send the user to the dashboard, or where they're going to do the inventory stuff
 // TODO: session cookie stuff
@@ -21,14 +22,15 @@ export default function Signup() {
   const [passwordError, setPasswordError] = useState(null);
   const [systemMessage, setSystemMessage] = useState(null);
   const [systemMessageClass, setSystemMessageClass] = useState("");
+  const navigate = useNavigate();
 
-  //TODO: Make systemMessages and class one object so it's cleaner
+  //TODO: Make systemMessages and class one object so it's cleaner??
   async function handleSubmit(e) {
     e.preventDefault();
 
     if (email && !emailError && password && !passwordError) {
       try {
-        const isUserAuthenticated = await authenticateUser({
+        const isUserAuthenticated = await loginUser({
           email,
           password,
         });
@@ -36,12 +38,11 @@ export default function Signup() {
         if (isUserAuthenticated) {
           setSystemMessage("Login Successful");
           setSystemMessageClass("text-success");
+          return navigate("/dashboard");
         } else {
           setSystemMessage("Please check your email and password");
           setSystemMessageClass("text-danger");
         }
-
-        // SEND THEM TO THE DASHBOARD
       } catch (error) {
         setSystemMessage(error.message);
         setSystemMessageClass("text-danger");
