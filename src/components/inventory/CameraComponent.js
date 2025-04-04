@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 import { getProductInfo } from "../../api/getProductInfo";
-import { AddButton } from "../buttons/AddButton";
+import { Button } from "react-bootstrap";
 
 const CameraComponent = () => {
   const [error, setError] = useState(null);
@@ -60,7 +60,7 @@ const CameraComponent = () => {
       {error ? (
         <div>
           <p>{error}</p>
-          <AddButton />
+          <Button>Add New Inventory</Button>
         </div>
       ) : (
         <video id="videoScanner" ref={ref} autoPlay playsInline />
