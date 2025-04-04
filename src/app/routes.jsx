@@ -6,6 +6,7 @@ import SignupPage from "./routes/signup";
 import NewInventory from "./routes/newInventory";
 import LoginPage from "./routes/login";
 import DashboardPage from "./routes/dashboard";
+import { authLoader } from "../api/authLoader";
 
 const router = createBrowserRouter([
   {
@@ -20,14 +21,19 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignupPage />,
   },
-  { path: "/login", element: <LoginPage /> },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
   {
     path: "/new-inventory",
     element: <NewInventory />,
+    loader: authLoader,
   },
   {
     path: "/dashboard",
     element: <DashboardPage />,
+    loader: authLoader,
   },
 ]);
 
