@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 
 function InventoryList({ items }) {
   return (
-    <Container className="d-flex flex-wrap gap-3 justify-content-start">
+    <Container className="d-flex flex-wrap gap-3">
       {items.map((item) => (
         <InventoryCard key={item.id} {...item} />
       ))}

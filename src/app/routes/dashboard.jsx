@@ -29,7 +29,7 @@ export default function DashboardPage() {
       <Container>
         <h1>Dashboard!</h1>
         <br />
-        <TopHalf />
+        {/* <TopHalf /> */}
         <InventoryList items={inventoryItems} />
         <br />
         <Button variant="primary" type="submit">
