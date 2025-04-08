@@ -2,7 +2,7 @@ import TopHalf from "../../components/dashboard/TopHalf";
 import { Container } from "react-bootstrap";
 import { Navigation } from "../../components/navigation/NavigationBar";
 import Button from "react-bootstrap/Button";
-import InventoryCard from "../../components/inventory/InventoryCard";
+import InventoryList from "../../components/inventory/InventoryGrid";
 
 export default function DashboardPage() {
   const inventoryItems = [
@@ -30,16 +30,7 @@ export default function DashboardPage() {
         <h1>Dashboard!</h1>
         <br />
         <TopHalf />
-        {inventoryItems.map((item, index) => (
-          <InventoryCard
-            key={index}
-            image={item.image}
-            title={item.title}
-            cuisine={item.cuisine}
-            description={item.description}
-            quantity={item.quantity}
-          />
-        ))}
+        <InventoryList items={inventoryItems} />
         <br />
         <Button variant="primary" type="submit">
           Add New Item
