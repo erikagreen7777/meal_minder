@@ -86,20 +86,21 @@ const CameraComponent = () => {
               left: "50%",
               transform: "translate(-50%, -50%)",
               width: "60%",
-              height: "45%",
-              border: "4px solid #FCF7F8",
+              border: "2px solid #FCF7F8",
               borderRadius: "8px",
-              opacity: 0.7,
+              opacity: 0.5,
               pointerEvents: "none",
             }}
           >
             <img
               src={barcodeOverlay}
               style={{
+                objectFit: "fill",
+                opacity: 0.5,
                 filter:
                   "invert(91%) sepia(11%) saturate(5042%) hue-rotate(201deg) brightness(138%) contrast(98%)",
               }}
-            ></img>
+            />
           </div>
         </div>
       )}
