@@ -1,4 +1,6 @@
 import Card from "react-bootstrap/Card";
+import { Button } from "react-bootstrap";
+import BaselineAddCircleOutline from "../buttons/BaselineAddCircleOutline";
 
 function InventoryCard({ ...props }) {
   return (
@@ -13,8 +15,12 @@ function InventoryCard({ ...props }) {
           objectFit: "contain",
         }}
       />
-      <Card.Body>
-        <Card.Text className="text-truncate">{props.description}</Card.Text>
+      <Button>
+        <BaselineAddCircleOutline />
+      </Button>
+
+      <Card.Body className="d-flex flex-column justify-content-end">
+        <Card.Text className="text-truncate ">{props.description}</Card.Text>
         <Card.Text className="fw-bold">Qty: {props.quantity}</Card.Text>
       </Card.Body>
     </Card>

@@ -95,6 +95,7 @@ const CameraComponent = () => {
             <img
               src={barcodeOverlay}
               style={{
+                objectPosition: "50% 50%",
                 objectFit: "fill",
                 opacity: 0.5,
                 filter:
