@@ -27,12 +27,12 @@ export default function DashboardPage() {
     <>
       <Navigation />
       <Container>
-        <h1>Dashboard!</h1>
+        <h1>Current Inventory</h1>
         <br />
         {/* <TopHalf /> */}
         <InventoryList items={inventoryItems} />
         <br />
-        <Button variant="primary" type="submit">
+        <Button variant="primary" href="/new-inventory">
           Add New Item
         </Button>
       </Container>

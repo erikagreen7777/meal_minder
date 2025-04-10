@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 import { getProductInfo } from "../../api/getProductInfo";
 import { Button } from "react-bootstrap";
+import barcodeOverlay from "../../assets/barcode-306926.svg";
 
 const CameraComponent = () => {
   const [error, setError] = useState(null);
-  // 758176233967 for barcode that's not found
-  // 080000521484 for barcode that's found
-  const [result, setResult] = useState("080000521484");
-  const [productInfo, setProductInfo] = useState(1);
+  const [result, setResult] = useState("");
+  const [productInfo, setProductInfo] = useState(null);
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -16,7 +15,6 @@ const CameraComponent = () => {
     },
   });
 
-  // CAMERA SCANNER
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -42,7 +40,6 @@ const CameraComponent = () => {
     };
   }, [ref]);
 
-  // BARCODE API
   useEffect(() => {
     if (result && result !== "No barcode found") {
       const fetchProductInfo = async () => {
@@ -55,6 +52,7 @@ const CameraComponent = () => {
       fetchProductInfo();
     }
   }, [result]);
+
   return (
     <div>
       {error ? (
@@ -63,14 +61,53 @@ const CameraComponent = () => {
           <Button>Add New Inventory</Button>
         </div>
       ) : (
-        <video id="videoScanner" ref={ref} autoPlay playsInline />
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            maxWidth: "600px",
+            margin: "auto",
+          }}
+        >
+          {/* Video Stream */}
+          <video
+            id="videoScanner"
+            ref={ref}
+            autoPlay
+            playsInline
+            style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+          />
+
+          {/* Barcode Overlay */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "60%",
+              height: "45%",
+              border: "4px solid #FCF7F8",
+              borderRadius: "8px",
+              opacity: 0.7,
+              pointerEvents: "none",
+            }}
+          >
+            <img
+              src={barcodeOverlay}
+              style={{
+                filter:
+                  "invert(91%) sepia(11%) saturate(5042%) hue-rotate(201deg) brightness(138%) contrast(98%)",
+              }}
+            ></img>
+          </div>
+        </div>
       )}
 
       <p>
-        <span>Last result:</span>
-        <span>{result}</span>
+        <span>Last result:</span> <span>{result}</span>
         {productInfo && (
-          <p style={{ fontSize: "12px", alignItems: "left" }}>
+          <p style={{ fontSize: "12px", textAlign: "left" }}>
             {JSON.stringify(productInfo, null, 2)}
           </p>
         )}
