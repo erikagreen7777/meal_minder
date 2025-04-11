@@ -7,12 +7,12 @@ export default function SubtractCircle(props) {
       height="1.75em"
       {...props}
     >
-      <path
-        fill="currentColor"
-        d="M7 12h9v1H7zm4.5-9a9.5 9.5 0 0 1 9.5 9.5a9.5 9.5 0 0 1-9.5 9.5A9.5 9.5 0 0 1 2 12.5A9.5 9.5 0 0 1 11.5 3m0 1A8.5 8.5 0 0 0 3 12.5a8.5 8.5 0 0 0 8.5 8.5a8.5 8.5 0 0 0 8.5-8.5A8.5 8.5 0 0 0 11.5 4"
-      ></path>
+      <g fill="none" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" d="M16 12H8"></path>
+        <circle cx="12" cy="12" r="10"></circle>
+      </g>
     </svg>
   );
 }
 
-// Material Design Light Collection: https://reactsvgicons.com/mdi-light
+// Akar Icons Collection: https://reactsvgicons.com/akar-icons
