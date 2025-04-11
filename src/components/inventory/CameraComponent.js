@@ -69,7 +69,6 @@ const CameraComponent = () => {
             margin: "auto",
           }}
         >
-          {/* Video Stream */}
           <video
             id="videoScanner"
             ref={ref}
@@ -78,7 +77,6 @@ const CameraComponent = () => {
             style={{ width: "100%", height: "auto", borderRadius: "8px" }}
           />
 
-          {/* Barcode Overlay */}
           <div
             style={{
               position: "absolute",
