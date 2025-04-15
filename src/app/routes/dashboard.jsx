@@ -7,11 +7,13 @@ import InventoryList from "../../components/inventory/InventoryGrid";
 export default function DashboardPage() {
   const inventoryItems = [
     {
-      image: "https://m.media-amazon.com/images/I/71ry2B5h7YL.jpg",
-      title: "Sriracha Sauce",
+      image:
+        "https://images.openfoodfacts.org/images/products/073/762/806/4502/front_en.6.200.jpg",
+      title: "Thai peanut noodle kit",
       cuisine: "Thai",
-      description:
-        "A spicy chili sauce made from chili peppers, vinegar, garlic, sugar, and salt.",
+      tags: ["en:protein"],
+      // description:
+      // "A spicy chili sauce made from chili peppers, vinegar, garlic, sugar, and salt.",
       quantity: 2,
     },
     {
@@ -19,7 +21,8 @@ export default function DashboardPage() {
         "https://s.turbifycdn.com/aah/mex-grocer/cholula-hot-sauce-with-chipotle-43.png",
       title: "Cholula Hot Sauce",
       cuisine: "Mexican",
-      description: "A hot sauce made from chili peppers, spices, and vinegar.",
+      tags: ["en:condiment", "en:spicy"],
+      // description: "A hot sauce made from chili peppers, spices, and vinegar.",
       quantity: 5,
     },
   ];

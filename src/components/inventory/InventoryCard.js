@@ -3,6 +3,8 @@ import { Button, Container } from "react-bootstrap";
 import PlusCircle from "../buttons/PlusCircle";
 import SubtractCircle from "../buttons/SubtractCircle";
 import { useState } from "react";
+import Badge from "react-bootstrap/Badge";
+import Stack from "react-bootstrap/Stack";
 
 function InventoryCard({ ...props }) {
   const [quantity, setQuantity] = useState(props.quantity);
@@ -40,7 +42,18 @@ function InventoryCard({ ...props }) {
           </Button>
         </Container>
 
-        <Card.Text className="text-truncate ">{props.description}</Card.Text>
+        <Card.Text className="text-truncate ">
+          {" "}
+          <Stack direction="horizontal" gap={1}>
+            {props.tags.map((item, index) => {
+              return (
+                <Badge pill bg="info">
+                  {item.split(":")[1]}
+                </Badge>
+              );
+            })}
+          </Stack>
+        </Card.Text>
         <Card.Text className="fw-bold">Qty: {quantity}</Card.Text>
       </Card.Body>
     </Card>
