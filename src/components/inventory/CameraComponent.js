@@ -55,54 +55,47 @@ const CameraComponent = () => {
 
   return (
     <div>
-      {error ? (
-        <div>
-          <p>{error}</p>
-          <Button>Add New Inventory</Button>
-        </div>
-      ) : (
+      <div
+        style={{
+          position: "relative",
+          // height: "60%",
+          // maxWidth: "90%",
+          margin: "auto",
+        }}
+      >
+        <video
+          id="videoScanner"
+          ref={ref}
+          autoPlay
+          playsInline
+          style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+        />
+
         <div
           style={{
-            position: "relative",
-            width: "100%",
-            maxWidth: "600px",
-            margin: "auto",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "60%",
+            border: "2px solid #FCF7F8",
+            borderRadius: "8px",
+            opacity: 0.5,
+            pointerEvents: "none",
           }}
         >
-          <video
-            id="videoScanner"
-            ref={ref}
-            autoPlay
-            playsInline
-            style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-          />
-
-          <div
+          <img
+            src={barcodeOverlay}
             style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "60%",
-              border: "2px solid #FCF7F8",
-              borderRadius: "8px",
+              objectPosition: "50% 50%",
+              objectFit: "fill",
               opacity: 0.5,
-              pointerEvents: "none",
+              filter:
+                "invert(91%) sepia(11%) saturate(5042%) hue-rotate(201deg) brightness(138%) contrast(98%)",
             }}
-          >
-            <img
-              src={barcodeOverlay}
-              style={{
-                objectPosition: "50% 50%",
-                objectFit: "fill",
-                opacity: 0.5,
-                filter:
-                  "invert(91%) sepia(11%) saturate(5042%) hue-rotate(201deg) brightness(138%) contrast(98%)",
-              }}
-            />
-          </div>
+          />
         </div>
-      )}
+      </div>
 
       <p>
         <span>Last result:</span> <span>{result}</span>

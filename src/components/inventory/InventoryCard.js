@@ -1,10 +1,9 @@
 import Card from "react-bootstrap/Card";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Badge, Stack } from "react-bootstrap";
 import PlusCircle from "../buttons/PlusCircle";
 import SubtractCircle from "../buttons/SubtractCircle";
 import { useState } from "react";
-import Badge from "react-bootstrap/Badge";
-import Stack from "react-bootstrap/Stack";
+import toProperCase from "../utils/toProperCase";
 
 function InventoryCard({ ...props }) {
   const [quantity, setQuantity] = useState(props.quantity);
@@ -27,7 +26,7 @@ function InventoryCard({ ...props }) {
         src={props.image}
         alt={props.title}
         style={{
-          maxHeight: "10vh",
+          height: "20vh",
           objectFit: "contain",
         }}
       />
@@ -43,12 +42,11 @@ function InventoryCard({ ...props }) {
         </Container>
 
         <Card.Text className="text-truncate ">
-          {" "}
-          <Stack direction="horizontal" gap={1}>
+          <Stack direction="horizontal" gap={1} className="flex-wrap">
             {props.tags.map((item, index) => {
               return (
                 <Badge pill bg="info">
-                  {item.split(":")[1]}
+                  {toProperCase(item.split(":")[1] ?? item)}
                 </Badge>
               );
             })}
