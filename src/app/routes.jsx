@@ -7,6 +7,7 @@ import NewInventory from "./routes/newInventory";
 import LoginPage from "./routes/login";
 import DashboardPage from "./routes/dashboard";
 import { authLoader } from "../api/authLoader";
+import SaveInventoryPage from "./routes/saveInventory";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardPage />,
+    loader: authLoader,
+  },
+  {
+    path: "/save-inventory",
+    element: <SaveInventoryPage />,
     loader: authLoader,
   },
 ]);
