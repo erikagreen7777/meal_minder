@@ -1,91 +1,32 @@
 import React from "react";
-import { Button, Form, Col, Row } from "react-bootstrap";
+import { Button, Form, Col, Row, Container } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import UnitDropdown from "../forms/UnitDropdown";
 import { Info } from "../icons/Info";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import InventoryRequired from "../forms/InventoryRequired";
-import { Carousel } from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
 import { useState } from "react";
 
 // Add in fiber and net carbs?
 
 export default function SaveInventory() {
-  const [index, setIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
 
-  const handleSelect = (selectedIndex) => {
-    setIndex(selectedIndex);
-  };
+  // TODO: some sort of handleProgress function to update the progress bar?
+
   return (
     <>
-      <Carousel
-        activeIndex={index}
-        onSelect={handleSelect}
-        style={{
-          backgroundImage:
-            "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY4EYBJdnabuSbsKOxUEYLv8pqeYXr5fJntw&s')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "50vh",
-          color: "white", // Make sure text color is visible
-          textShadow: "0px 0px 5px black", // Optional: adds contrast for readability
-          zIndex: 10,
-        }}
-        // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", minHeight: "50vh" }}
-      >
-        <Carousel.Item>
-          <Carousel.Caption style={{ color: "blue" }}>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
-      {/* <Carousel>
-        <Carousel.Item>
-          <Form>
-            <Form.Group as={Col} controlId="productName">
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control type="text" placeholder="Sriracha" required />
-            </Form.Group>
-            <Form.Group as={Col} controlId="productQuantity">
-              <Form.Label>Product Quantity</Form.Label>
-              <OverlayTrigger
-                placement="right"
-                overlay={
-                  <Tooltip id="product-quantity-tooltip">
-                    {
-                      "The amount inside the package (e.g. tuna packet has 3 oz)"
-                    }
-                  </Tooltip>
-                }
-              >
-                <span style={{ cursor: "pointer", color: "#6c757d" }}>
-                  <Info />
-                </span>
-              </OverlayTrigger>
 
-              <InputGroup>
-                <Form.Control type="text" placeholder="34" />
-                <UnitDropdown className="primary" props="productQuantityUnit" />
-              </InputGroup>
-            </Form.Group>
-          </Form>
-        </Carousel.Item>
-      </Carousel>
+      <Container className="mb-3">
+      <ProgressBar now={progress} className="mb-3"/>
+        <InventoryRequired />
+      </Container>
+
+      {/*
+          
+
+
       <Form>
         <Row className="mb-3">
           <Form.Group as={Col} className="mb-3" controlId="servingSize">
