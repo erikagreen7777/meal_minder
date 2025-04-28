@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
-import { Button, Container, Badge, Stack } from "react-bootstrap";
-import PlusCircle from "../buttons/PlusCircle";
-import SubtractCircle from "../buttons/SubtractCircle";
+import { Button, Container, Badge, Stack, Placeholder } from "react-bootstrap";
+import PlusCircle from "../icons/PlusCircle";
+import SubtractCircle from "../icons/SubtractCircle";
 import { useState } from "react";
 import toProperCase from "../utils/toProperCase";
 
@@ -21,16 +21,30 @@ function InventoryCard({ ...props }) {
   return (
     <Card style={{ flex: "1 1 20vw", maxWidth: "80vw" }}>
       <Card.Title className="p-2 text-center">{props.title}</Card.Title>
-      <Card.Img
-        variant="top"
-        src={props.image}
-        alt={props.title}
-        style={{
-          height: "20vh",
-          objectFit: "contain",
-        }}
-      />
-
+      <Container>
+        {(
+          <Card.Img
+            variant="top"
+            src={props.image}
+            alt={props.title}
+            style={{
+              height: "20vh",
+              objectFit: "contain",
+            }}
+          />
+        ) ?? (
+          <Placeholder
+            animation="glow"
+            className="text-center"
+            style={{
+              height: "20vh",
+              objectFit: "contain",
+            }}
+          >
+            <Placeholder xs={4} />
+          </Placeholder>
+        )}
+      </Container>
       <Card.Body className="d-flex flex-column justify-content-end">
         <Container className="d-flex justify-content-around pb-3">
           <Button variant="light">

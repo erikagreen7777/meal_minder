@@ -1,4 +1,5 @@
 export const loginUser = async (userData) => {
+  console.log("userData", userData);
   try {
     const response = await fetch("/login", {
       method: "POST",
@@ -14,6 +15,6 @@ export const loginUser = async (userData) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log(error.message);
+    console.log("oops", error.message);
   }
 };

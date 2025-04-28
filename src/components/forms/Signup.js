@@ -5,7 +5,8 @@ import validateEmail from "../utils/validateEmail";
 import validateName from "../utils/validateName";
 import { createUser } from "../../api/createUser";
 import fetchUserInfo from "../utils/fetchUserInfo";
-
+import { useNavigate } from "react-router";
+import { loginUser } from "../../api/loginUser";
 // TODO: send the user to the dashboard, or where they're going to do the inventory stuff
 // TODO: session cookie stuff
 // TODO: confirm password field (type it twice)
@@ -22,45 +23,63 @@ export default function Signup() {
   const [lastName, setLastName] = useState("");
   const [systemMessage, setSystemMessage] = useState(null);
   const [systemMessageClass, setSystemMessageClass] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setEmail(e.currentTarget.elements.formEmail.value);
-    setPassword(e.currentTarget.elements.formPassword.value);
-    setFirstName(e.currentTarget.elements.firstName.value);
-    setLastName(e.currentTarget.elements.lastName.value);
 
-    if (
-      email &&
-      firstName &&
-      lastName &&
-      !emailError &&
-      !firstNameError &&
-      !lastNameError
-    ) {
-      try {
-        const isDuplicateEmail = await fetchUserInfo(email);
-        if (!isDuplicateEmail) {
-          setEmailError("");
-          const postCreateUser = await createUser({
-            email,
-            firstName,
-            lastName,
-            password,
-          });
-          setSystemMessage("Account created successfully");
-          setSystemMessageClass("text-success");
-        } else {
-          setSystemMessage("User already exists");
-          setSystemMessageClass("text-danger");
-          throw new Error("User already exists");
-        }
-      } catch (error) {
-        setSystemMessage(error.message);
-        setSystemMessageClass("text-danger");
-      }
-    } else {
+    const form = e.currentTarget;
+    const formEmail = form.elements.formEmail.value.trim();
+    const formPassword = form.elements.formPassword.value.trim();
+    const formFirstName = form.elements.firstName.value.trim();
+    const formLastName = form.elements.lastName.value.trim();
+
+    setEmail(formEmail);
+    setPassword(formPassword);
+    setFirstName(formFirstName);
+    setLastName(formLastName);
+
+    if (!formEmail || !formFirstName || !formLastName) {
+      setSystemMessage("All fields are required");
+      setSystemMessageClass("text-danger");
+      return;
+    }
+
+    if (emailError || firstNameError || lastNameError) {
       setSystemMessage(emailError || firstNameError || lastNameError);
+      setSystemMessageClass("text-danger");
+      return;
+    }
+
+    try {
+      const isDuplicateEmail = await fetchUserInfo(formEmail);
+      if (isDuplicateEmail) {
+        throw new Error("User already exists");
+      }
+
+      await createUser({
+        email: formEmail,
+        firstName: formFirstName,
+        lastName: formLastName,
+        password: formPassword,
+      });
+
+      setSystemMessage("Account created successfully");
+      setSystemMessageClass("text-success");
+
+      const isUserAuthenticated = await loginUser({
+        email: formEmail,
+        password: formPassword,
+      });
+
+      if (!isUserAuthenticated) {
+        throw new Error("Login failed after signup");
+      }
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
+      setSystemMessage(error.message || "Something went wrong");
       setSystemMessageClass("text-danger");
     }
   }

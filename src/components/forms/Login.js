@@ -23,6 +23,7 @@ export default function Signup() {
   const [systemMessage, setSystemMessage] = useState(null);
   const [systemMessageClass, setSystemMessageClass] = useState("");
   const navigate = useNavigate();
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
 
   //TODO: Make systemMessages and class one object so it's cleaner??
   async function handleSubmit(e) {
