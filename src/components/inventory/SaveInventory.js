@@ -7,6 +7,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import InventoryRequired from "../forms/InventoryRequired";
 import { ProgressBar } from "react-bootstrap";
 import { useState } from "react";
+import { InventorySaveButtonSet } from "../forms/InventorySaveButtonSet";
 
 // Add in fiber and net carbs?
 
@@ -17,18 +18,19 @@ export default function SaveInventory() {
 
   return (
     <>
-
       <Container className="mb-3">
-      <ProgressBar now={progress} className="mb-3"/>
+        <ProgressBar now={progress} className="mb-3" />
         <InventoryRequired />
       </Container>
-
+      <Container>
+        <InventorySaveButtonSet />
+      </Container>
       {/*
           
 
 
       <Form>
-        <Row className="mb-3">
+       </Row> <Row className="mb-3">
           <Form.Group as={Col} className="mb-3" controlId="servingSize">
             <Form.Label>Serving Size</Form.Label>
             <InputGroup>
@@ -38,7 +40,7 @@ export default function SaveInventory() {
           </Form.Group>
         </Row>
 
-        <Row className="mb-3">
+       </Row> <Row className="mb-3">
           <Form.Group as={Col} className="mb-3" controlId="calories">
             <Form.Label>Calories (kcal)</Form.Label>
             <Form.Control type="number" placeholder="10" required />

@@ -4,7 +4,6 @@ import { InputGroup } from "react-bootstrap";
 import UnitDropdown from "../forms/UnitDropdown";
 import { Info } from "../icons/Info";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { ProgressBar } from "react-bootstrap";
 import { useState } from "react";
 
 export default function InventoryRequired() {
