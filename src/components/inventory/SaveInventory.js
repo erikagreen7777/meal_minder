@@ -10,20 +10,41 @@ import { useState } from "react";
 import { InventorySaveButtonSet } from "../forms/InventorySaveButtonSet";
 
 // Add in fiber and net carbs?
+// TODO: some sort of handleProgress function to update the progress bar?
+// TODO: make the progress bar percentage dynamic based on the number of steps
 
 export default function SaveInventory() {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(33);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [formData, setFormData] = useState({
+    productName: "",
+    productQuantity: 0,
+    productQuantityUnit: "grams",
+    servingSize: 0,
+    servingSizeUnit: "grams",
+    calories: 0,
+  });
+  const props = { stepIndex };
 
-  // TODO: some sort of handleProgress function to update the progress bar?
+  const handleFormDataChange = (field, value) => {
+    console.log(`${field}, ${value}`);
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   return (
     <>
       <Container className="mb-3">
         <ProgressBar now={progress} className="mb-3" />
-        <InventoryRequired />
+        {/* TODO: Case statement for stepIndex */}
+        {stepIndex === 0 && (
+          <InventoryRequired
+            formData={formData}
+            onChange={handleFormDataChange}
+          />
+        )}
       </Container>
       <Container>
-        <InventorySaveButtonSet />
+        <InventorySaveButtonSet props={props} />
       </Container>
       {/*
           

@@ -3,9 +3,13 @@ import React from "react";
 
 //TODO: put these selections in some sort of GLOBAL VARIABLE
 
-export default function UnitDropdown(dropDownId) {
+export default function UnitDropdown({ dropDownId, onChange }) {
   return (
-    <Form.Select aria-title="select unit" id={dropDownId}>
+    <Form.Select
+      aria-title="select unit"
+      id={dropDownId}
+      onChange={(e) => onChange(dropDownId, e.target.value)}
+    >
       <option>select unit </option>
       <option href="#">cups</option>
       <option href="#">grams</option>
