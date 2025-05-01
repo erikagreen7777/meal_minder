@@ -1,10 +1,11 @@
 import React from "react";
 import { Form, Col, Row, Container } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
-import UnitDropdown from "../forms/UnitDropdown";
-import { Info } from "../icons/Info";
+import UnitDropdown from "../UnitDropdown";
+import { Info } from "../../icons/Info";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useState } from "react";
+
+// TODO: add tags or cuisine type??
 
 export default function InventoryRequired({ formData, onChange }) {
   return (
