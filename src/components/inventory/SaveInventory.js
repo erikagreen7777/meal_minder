@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import InventoryRequired from "../forms/inventory/InventoryRequired";
 import { ProgressBar } from "react-bootstrap";
+import InventoryRequired from "../forms/inventory/InventoryRequired";
 import { useState } from "react";
 import { InventorySaveButtonSet } from "../forms/inventory/InventorySaveButtonSet";
 import InventoryNutrition from "../forms/inventory/InventoryNutrition";
@@ -30,7 +30,6 @@ export default function SaveInventory() {
     calcium: 0,
     potassium: 0,
   });
-  const props = { stepIndex }; // <--- may end up passing more
   const renderFormStep = () => {
     switch (stepIndex) {
       case 0:
@@ -64,6 +63,30 @@ export default function SaveInventory() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const incrementFormStep = () => {
+    if (stepIndex >= 2) {
+      //save data and then send user to dashboard?
+      console.log("save data");
+    } else if (stepIndex >= 0) {
+      setStepIndex((prev) => prev + 1);
+      setProgress((prev) => prev + 33.3333333333);
+    }
+  };
+
+  const decrementFormStep = () => {
+    if (stepIndex === 0) {
+      //send user to dashboard?
+      console.log("go back");
+    } else if (stepIndex > 0) {
+      setStepIndex((prev) => prev - 1);
+      setProgress((prev) => prev - 33.3333333333);
+    }
+  };
+
+  const skipOptionalSteps = () => {
+    // save data and then send user to dashboard?
+    console.log("skip all this");
+  };
   return (
     <>
       <Container className="mb-3">
@@ -71,7 +94,14 @@ export default function SaveInventory() {
         {renderFormStep()}
       </Container>
       <Container>
-        <InventorySaveButtonSet props={props} />
+        <InventorySaveButtonSet
+          {...{
+            stepIndex,
+            incrementFormStep,
+            decrementFormStep,
+            skipOptionalSteps,
+          }}
+        />
       </Container>
     </>
   );
