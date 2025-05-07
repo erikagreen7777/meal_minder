@@ -35,35 +35,3 @@ export const InventorySaveButtonSet = ({
     </Row>
   );
 };
-
-/* child to parent component through callback
-PARENT
-import StepOne from './StepOne';
-
-function SaveInventory() {
-  const handleProductNameChange = (name) => {
-    console.log('Product name from child:', name);
-    // You could also update parent state here
-  };
-
-  return (
-    <StepOne onProductNameChange={handleProductNameChange} />
-  );
-}
-
-CHILD
-import { Form } from 'react-bootstrap';
-
-function StepOne({ onProductNameChange }) {
-  const handleChange = (e) => {
-    onProductNameChange(e.target.value);
-  };
-
-  return (
-    <Form.Group controlId="productName">
-      <Form.Label>Product Name</Form.Label>
-      <Form.Control type="text" onChange={handleChange} />
-    </Form.Group>
-  );
-}
-*/

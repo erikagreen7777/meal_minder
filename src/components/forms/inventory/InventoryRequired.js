@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { Form, Col, Row, Container } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import UnitDropdown from "../UnitDropdown";
@@ -7,11 +8,33 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 // TODO: add tags or cuisine type??
 
-export default function InventoryRequired({ formData, onChange }) {
+export default function InventoryRequired({
+  formData,
+  onChange,
+  onDataValidation,
+}) {
+  const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    if (
+      formData.productName &&
+      formData.productQuantity &&
+      formData.servingSize &&
+      formData.productQuantityUnit &&
+      formData.servingSizeUnit
+    ) {
+      setValidated(true);
+      onDataValidation(true);
+    } else {
+      setValidated(false);
+      onDataValidation(false);
+    }
+  }, [formData, validated]);
+
   return (
     <Container>
       <h2>Alright, let's do the must-haves first:</h2>
-      <Form>
+      <Form validated={validated} onSubmit={() => console.log("submit")}>
         <Form.Group as={Col} controlId="productName" className="pt-4">
           <Form.Label>
             Product Name<span className="text-danger">*</span>

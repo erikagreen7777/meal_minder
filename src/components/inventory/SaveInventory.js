@@ -12,6 +12,7 @@ import InventoryVitaminsMinerals from "../forms/inventory/InventoryVitaminsMiner
 export default function SaveInventory() {
   const [progress, setProgress] = useState(33);
   const [stepIndex, setStepIndex] = useState(0);
+  const [firstStepValidated, setFirstStepValidated] = useState(false);
   const [formData, setFormData] = useState({
     productName: "",
     productQuantity: 0,
@@ -37,6 +38,7 @@ export default function SaveInventory() {
           <InventoryRequired
             formData={formData}
             onChange={handleFormDataChange}
+            onDataValidation={handleRequiredFormValidation}
           />
         );
       case 1:
@@ -58,6 +60,10 @@ export default function SaveInventory() {
     }
   };
 
+  const handleRequiredFormValidation = (dataFromChild) => {
+    setFirstStepValidated(dataFromChild);
+  };
+
   const handleFormDataChange = (field, value) => {
     console.log(`${field}, ${value}`);
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -67,9 +73,11 @@ export default function SaveInventory() {
     if (stepIndex >= 2) {
       //save data and then send user to dashboard?
       console.log("save data");
-    } else if (stepIndex >= 0) {
+    } else if (stepIndex >= 0 && firstStepValidated) {
       setStepIndex((prev) => prev + 1);
       setProgress((prev) => prev + 33.3333333333);
+    } else {
+      console.log("error");
     }
   };
 
