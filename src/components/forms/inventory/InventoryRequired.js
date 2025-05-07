@@ -13,41 +13,60 @@ export default function InventoryRequired({
   onChange,
   onDataValidation,
 }) {
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState({
+    productName: false,
+    productQuantity: false,
+    productQuantityUnit: false,
+    servingSize: false,
+    servingSizeUnit: false,
+  });
 
-  useEffect(() => {
-    if (
-      formData.productName &&
-      formData.productQuantity &&
-      formData.servingSize &&
-      formData.productQuantityUnit &&
-      formData.servingSizeUnit
-    ) {
-      setValidated(true);
-      onDataValidation(true);
-    } else {
-      setValidated(false);
-      onDataValidation(false);
+  const [focused, setFocused] = useState({
+    productName: false,
+    productQuantity: false,
+    productQuantityUnit: false,
+    servingSize: false,
+    servingSizeUnit: false,
+  });
+
+  const handleFocus = (fieldName, value) => {
+    setFocused((prev) => ({ ...prev, [fieldName]: true }));
+  };
+
+  const handleBlur = (fieldName, value) => {
+    if (value !== "") {
+      setValidated((prev) => ({ ...prev, [fieldName]: true }));
     }
-  }, [formData, validated]);
+    let objectValid = Object.values(validated).every((val) => {
+      return val === true;
+    });
+    let objectVisited = Object.values(focused).every((val) => {
+      return val === true;
+    });
+  };
 
   return (
     <Container>
       <h2>Alright, let's do the must-haves first:</h2>
-      <Form validated={validated} onSubmit={() => console.log("submit")}>
+      <Form validated={validated}>
         <Form.Group as={Col} controlId="productName" className="pt-4">
           <Form.Label>
             Product Name<span className="text-danger">*</span>
           </Form.Label>
-
           <Form.Control
             type="text"
             placeholder="Sriracha"
             value={formData.productName || ""}
+            onFocus={(e) => handleFocus("productName", e.target.value)}
+            onBlur={(e) => handleBlur("productName", e.target.value)}
             onChange={(e) => onChange("productName", e.target.value)}
-            required
+            isInvalid={false}
           />
+          <Form.Control.Feedback type="invalid">
+            This field is required
+          </Form.Control.Feedback>
         </Form.Group>
+
         <Row>
           <Form.Group as={Col} controlId="productQuantity" className="pt-4">
             <Form.Label>
@@ -73,11 +92,15 @@ export default function InventoryRequired({
                 value={formData.productQuantity || ""}
                 onChange={(e) => onChange("productQuantity", e.target.value)}
                 required
+                onFocus={(e) => handleFocus("productQuantity", e.target.value)}
+                onBlur={(e) => handleBlur("productQuantity", e.target.value)}
               />
               <UnitDropdown
                 dropDownId="productQuantityUnit"
                 onChange={onChange}
                 required
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </InputGroup>
           </Form.Group>
@@ -92,11 +115,15 @@ export default function InventoryRequired({
               value={formData.servingSize || ""}
               onChange={(e) => onChange("servingSize", e.target.value)}
               required
+              onFocus={(e) => handleFocus("servingSize", e.target.value)}
+              onBlur={(e) => handleBlur("servingSize", e.target.value)}
             />
             <UnitDropdown
               dropDownId="servingSizeUnit"
               onChange={onChange}
               required
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </InputGroup>
         </Form.Group>
