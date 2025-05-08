@@ -2,7 +2,7 @@ import { Form } from "react-bootstrap";
 import React from "react";
 
 //TODO: put these selections in some sort of GLOBAL VARIABLE
-
+//TODO: add isInvalid to this component because it's not showing in parent
 export default function UnitDropdown({
   dropDownId,
   onChange,
@@ -17,16 +17,14 @@ export default function UnitDropdown({
       onBlur={(e) => onBlur(dropDownId, e.target.value)}
       onFocus={(e) => onFocus(dropDownId, e.target.value)}
     >
-      <option>select unit </option>
-      <option href="#" value="cups">
-        cups
-      </option>
-      <option href="#">grams</option>
-      <option href="#">ounces</option>
-      <option href="#">pieces</option>
-      <option href="#">slices</option>
-      <option href="#">tablespoons</option>
-      <option href="#">teaspoons</option>
+      <option value="">select unit </option>
+      <option value="cups">cups</option>
+      <option value="grams">grams</option>
+      <option value="ounces">ounces</option>
+      <option value="pieces">pieces</option>
+      <option value="slices">slices</option>
+      <option value="tablespoons">tablespoons</option>
+      <option value="teaspoons">teaspoons</option>
     </Form.Select>
   );
 }

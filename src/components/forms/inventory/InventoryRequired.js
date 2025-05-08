@@ -7,6 +7,8 @@ import { Info } from "../../icons/Info";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 // TODO: add tags or cuisine type??
+// TODO: DRY it up
+// UP NEXT: specify the selects in terms of 'not empty' isn't going to cut it.
 
 export default function InventoryRequired({
   formData,
@@ -28,7 +30,8 @@ export default function InventoryRequired({
     servingSize: false,
     servingSizeUnit: false,
   });
-
+  const [everythingVisted, setEverythingVisited] = useState(false);
+  const [everythingValid, setEverythingValid] = useState(false);
   const handleFocus = (fieldName, value) => {
     setFocused((prev) => ({ ...prev, [fieldName]: true }));
   };
@@ -36,19 +39,35 @@ export default function InventoryRequired({
   const handleBlur = (fieldName, value) => {
     if (value !== "") {
       setValidated((prev) => ({ ...prev, [fieldName]: true }));
+    } else if (value === "" && validated[fieldName] === true) {
+      setValidated((prev) => ({ ...prev, [fieldName]: false }));
     }
-    let objectValid = Object.values(validated).every((val) => {
-      return val === true;
-    });
-    let objectVisited = Object.values(focused).every((val) => {
-      return val === true;
-    });
   };
+
+  useEffect(() => {
+    Object.values(validated).every((val) => {
+      return val === true;
+    })
+      ? setEverythingValid(true)
+      : setEverythingValid(false);
+    Object.values(focused).every((val) => {
+      return val === true;
+    })
+      ? setEverythingVisited(true)
+      : setEverythingVisited(false);
+
+    if (everythingVisted && everythingValid) {
+      onDataValidation(true);
+    } else {
+      onDataValidation(false);
+    }
+  }, [validated, focused, everythingVisted, everythingValid]);
 
   return (
     <Container>
       <h2>Alright, let's do the must-haves first:</h2>
-      <Form validated={validated}>
+      <Form validated={everythingValid} noValidate>
+        {/* PRODUCT NAME */}
         <Form.Group as={Col} controlId="productName" className="pt-4">
           <Form.Label>
             Product Name<span className="text-danger">*</span>
@@ -60,13 +79,14 @@ export default function InventoryRequired({
             onFocus={(e) => handleFocus("productName", e.target.value)}
             onBlur={(e) => handleBlur("productName", e.target.value)}
             onChange={(e) => onChange("productName", e.target.value)}
-            isInvalid={false}
+            isInvalid={focused.productName && !validated.productName}
           />
           <Form.Control.Feedback type="invalid">
             This field is required
           </Form.Control.Feedback>
         </Form.Group>
 
+        {/* PRODUCT QUANTITY */}
         <Row>
           <Form.Group as={Col} controlId="productQuantity" className="pt-4">
             <Form.Label>
@@ -91,19 +111,23 @@ export default function InventoryRequired({
                 placeholder="34"
                 value={formData.productQuantity || ""}
                 onChange={(e) => onChange("productQuantity", e.target.value)}
-                required
                 onFocus={(e) => handleFocus("productQuantity", e.target.value)}
                 onBlur={(e) => handleBlur("productQuantity", e.target.value)}
+                isInvalid={
+                  focused.productQuantity && !validated.productQuantity
+                }
               />
               <UnitDropdown
                 dropDownId="productQuantityUnit"
                 onChange={onChange}
-                required
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                // isInvalid needs to go to the child
               />
             </InputGroup>
           </Form.Group>
+
+          {/* SERVING SIZE */}
         </Row>
         <Form.Group as={Col} controlId="servingSize" className="pt-4">
           <Form.Label>Serving Size</Form.Label>
@@ -114,14 +138,13 @@ export default function InventoryRequired({
               placeholder="113"
               value={formData.servingSize || ""}
               onChange={(e) => onChange("servingSize", e.target.value)}
-              required
               onFocus={(e) => handleFocus("servingSize", e.target.value)}
               onBlur={(e) => handleBlur("servingSize", e.target.value)}
+              isInvalid={focused.servingSize && !validated.servingSize}
             />
             <UnitDropdown
               dropDownId="servingSizeUnit"
               onChange={onChange}
-              required
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
